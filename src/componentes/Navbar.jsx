@@ -1,42 +1,36 @@
-const Navbar = ({ setVista }) => {
+
+import { Link } from "react-router-dom";
+
+const Navbar = () => {
   const total = 25000;
 
   return (
     <nav className="navbar navbar-dark bg-dark px-4">
-      <span
-        className="navbar-brand"
-        style={{ cursor: "pointer" }}
-        onClick={() => setVista("home")}
-      >
+      <Link className="navbar-brand" to="/">
         🍕 Pizzeria Miracle since 1994
-      </span>
+      </Link>
 
-      <div className="d-flex gap-2">
+      <div className="d-flex gap-2 flex-wrap">
 
-        <button
-          className="btn btn-outline-light"
-          onClick={() => setVista("home")}
-        >
+        <Link to="/" className="btn btn-outline-light">
           🍕 Home
-        </button>
+        </Link>
 
-        <button
-          className="btn btn-outline-light"
-          onClick={() => setVista("login")}
-        >
+        <Link to="/login" className="btn btn-outline-light">
           🔐 Login
-        </button>
+        </Link>
 
-        <button
-          className="btn btn-outline-light"
-          onClick={() => setVista("register")}
-        >
-          🔐 Register
-        </button>
+        <Link to="/register" className="btn btn-outline-light">
+          📝 Register
+        </Link>
 
-        <button className="btn btn-warning">
+        <Link to="/profile" className="btn btn-outline-light">
+          👤 Profile
+        </Link>
+
+        <Link to="/cart" className="btn btn-warning">
           🛒 Total: ${total.toLocaleString("es-CL")}
-        </button>
+        </Link>
 
       </div>
     </nav>

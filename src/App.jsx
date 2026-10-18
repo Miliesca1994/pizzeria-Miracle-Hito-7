@@ -1,24 +1,32 @@
+
+import { Routes, Route } from "react-router-dom";
+
 import Navbar from "./componentes/Navbar";
-import Pizza from "./componentes/Pizza";
 import Footer from "./componentes/Footer";
 
-// Los utilizaremos nuevamente en próximos hitos
-// import Home from "./componentes/Home";
-// import Cart from "./componentes/Cart";
-// import Register from "./componentes/Register";
-// import Login from "./componentes/Login";
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Cart from "./pages/Cart";
+import Pizza from "./pages/Pizza";
+import Profile from "./pages/Profile";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
     <>
       <Navbar />
 
-      {/* <Home /> */}
-      {/* <Cart /> */}
-      {/* <Register /> */}
-      {/* <Login /> */}
-
-      <Pizza />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/pizza/p001" element={<Pizza />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/404" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
 
       <Footer />
     </>
