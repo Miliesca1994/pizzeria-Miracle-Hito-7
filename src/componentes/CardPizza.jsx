@@ -1,4 +1,20 @@
-const CardPizza = ({ name, price, ingredients, img }) => {
+
+import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
+
+const CardPizza = ({ id, name, price, ingredients, img }) => {
+  const { addToCart } = useCart();
+
+  const handleAdd = () => {
+    addToCart({
+      id,
+      name,
+      price,
+      ingredients,
+      img,
+    });
+  };
+
   return (
     <div className="col-md-4 mb-4">
       <div className="card h-100 shadow">
@@ -20,18 +36,24 @@ const CardPizza = ({ name, price, ingredients, img }) => {
           </p>
 
           <ul>
-           {ingredients?.map((ingredient, index) => (
-  <li key={index}>{ingredient}</li>
-))}
+            {ingredients?.map((ingredient, index) => (
+              <li key={index}>{ingredient}</li>
+            ))}
           </ul>
 
           <div className="d-flex justify-content-between">
-            <button className="btn btn-outline-primary">
+            <Link
+              to="/pizza/p001"
+              className="btn btn-outline-primary"
+            >
               Ver más
-            </button>
+            </Link>
 
-            <button className="btn btn-success">
-              Añadir
+            <button
+              className="btn btn-success"
+              onClick={handleAdd}
+            >
+              🛒 Añadir
             </button>
           </div>
         </div>

@@ -1,8 +1,9 @@
 
 import { Link } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 const Navbar = () => {
-  const total = 25000;
+  const { total } = useCart();
 
   return (
     <nav className="navbar navbar-dark bg-dark px-4">
@@ -11,7 +12,6 @@ const Navbar = () => {
       </Link>
 
       <div className="d-flex gap-2 flex-wrap">
-
         <Link to="/" className="btn btn-outline-light">
           🍕 Home
         </Link>
@@ -31,7 +31,6 @@ const Navbar = () => {
         <Link to="/cart" className="btn btn-warning">
           🛒 Total: ${total.toLocaleString("es-CL")}
         </Link>
-
       </div>
     </nav>
   );

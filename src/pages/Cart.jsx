@@ -1,94 +1,74 @@
-import { useState } from "react";
-import { pizzaCart, pizzas } from "../pizzas";
+
+import { useCart } from "../context/CartContext";
 
 const Cart = () => {
-  const [cart, setCart] = useState(pizzaCart);
-
-  // Aumentar cantidad
-  const aumentarCantidad = (id) => {
-    const nuevoCart = cart.map((pizza) =>
-      pizza.id === id
-        ? { ...pizza, count: pizza.count + 1 }
-        : pizza
-    );
-
-    setCart(nuevoCart);
-  };
-
-  // Disminuir cantidad
-  const disminuirCantidad = (id) => {
-    const nuevoCart = cart
-      .map((pizza) =>
-        pizza.id === id
-          ? { ...pizza, count: pizza.count - 1 }
-          : pizza
-      )
-      .filter((pizza) => pizza.count > 0);
-
-    setCart(nuevoCart);
-  };
-
-  // Calcular total
-  const total = cart.reduce(
-    (acumulador, pizza) =>
-      acumulador + pizza.price * pizza.count,
-    0
-  );
+  const { cart, addToCart, removeFromCart, total } = useCart();
 
   return (
-    <div className="container mt-5">
-      <h3 className="mb-4">Detalles del pedido:</h3>
+    <div className="container mt-5 mb-5">
+      <h3 className="mb-4">🛒 Detalles del pedido:</h3>
 
-      {cart.map((pizza) => (
-        <div
-          key={pizza.id}
-          className="d-flex align-items-center justify-content-between border-bottom py-3"
-        >
-          <div className="d-flex align-items-center">
-            <img
-  src={pizzas.find((item) => item.id === pizza.id)?.img}
-  alt={pizza.name}
-  style={{
-    width: "100px",
-    height: "70px",
-    objectFit: "cover",
-  }}
-/>
-
-            <h5 className="ms-3 text-capitalize">
-              {pizza.name}
-            </h5>
-          </div>
-
-          <div className="d-flex align-items-center gap-3">
-            <strong>
-              ${pizza.price.toLocaleString("es-CL")}
-            </strong>
-
-            <button
-              className="btn btn-outline-danger"
-              onClick={() => disminuirCantidad(pizza.id)}
-            >
-              -
-            </button>
-
-            <span>{pizza.count}</span>
-
-            <button
-              className="btn btn-outline-primary"
-              onClick={() => aumentarCantidad(pizza.id)}
-            >
-              +
-            </button>
-          </div>
+      {cart.length === 0 ? (
+        <div className="alert alert-info">
+          Tu carrito está vacío. ¡Agrega una pizza!
         </div>
-      ))}
+      ) : (
+        <>
+          {cart.map((pizza) => (
+            <div
+              key={pizza.id}
+              className="d-flex align-items-center justify-content-between border-bottom py-3"
+            >
+              <div className="d-flex align-items-center">
+                <img
+                  src={pizza.img}
+                  alt={pizza.name}
+                  style={{
+                    width: "100px",
+                    height: "70px",
+                    objectFit: "cover",
+                  }}
+                />
+
+                <h5 className="ms-3 text-capitalize">
+                  {pizza.name}
+                </h5>
+              </div>
+
+              <div className="d-flex align-items-center gap-3">
+                <strong>
+                  ${pizza.price.toLocaleString("es-CL")}
+                </strong>
+
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => removeFromCart(pizza.id)}
+                >
+                  -
+                </button>
+
+                <span>{pizza.count}</span>
+
+                <button
+                  className="btn btn-outline-primary"
+                  onClick={() => addToCart(pizza)}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+          ))}
+        </>
+      )}
 
       <h3 className="mt-4">
         Total: ${total.toLocaleString("es-CL")}
       </h3>
 
-      <button className="btn btn-dark mt-3">
+      <button
+        className="btn btn-dark mt-3"
+        disabled={cart.length === 0}
+      >
         Pagar
       </button>
     </div>
