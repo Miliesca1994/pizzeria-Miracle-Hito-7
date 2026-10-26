@@ -1,46 +1,57 @@
-# 🍕 Pizzería Miracle since 1994 – Hito 6
+# 🍕 Pizzería Miracle since 1994 – Hito 7
 
 ## 📌 Descripción del proyecto
 
-Pizzería Miracle since 1994 es una aplicación web desarrollada con React y Vite, como parte del desafío **Hito 6 – Pizzería Mamma Mía** de Desafío Latam.
+Pizzería Miracle since 1994 es una aplicación web desarrollada con React y Vite como parte del Hito 7 – Pizzería Mamma Mía de Desafío Latam.
 
-En esta etapa se implementa **Context API de React** para administrar globalmente el carrito de compras, permitiendo compartir información entre los componentes Home, Navbar y Cart sin necesidad de pasar propiedades entre múltiples niveles.
+En esta etapa se implementan rutas protegidas mediante React Router DOM, autenticación simulada utilizando Context API y navegación dinámica hacia los detalles de cada pizza mediante el hook `useParams`.
+
+El proyecto continúa las funcionalidades desarrolladas en los hitos anteriores, incluyendo el carrito de compras y la administración global de productos.
 
 ## 🚀 Funcionalidades
 
-- Visualización del catálogo de pizzas con imágenes, nombres, ingredientes y precios.
-- Incorporación de pizzas al carrito desde Home.
-- Administración global del carrito mediante `CartContext`.
-- Actualización automática del total de compras en Navbar.
-- Visualización de los productos seleccionados en Cart.
-- Incremento y disminución de cantidades mediante los botones `+` y `-`.
-- Eliminación automática de productos cuando su cantidad llega a cero.
-- Cálculo dinámico del total según el precio y la cantidad de cada pizza.
-- Mensaje informativo cuando el carrito está vacío.
-- Navegación entre páginas mediante React Router DOM.
-- Diseño responsivo utilizando Bootstrap.
+- Visualización del catálogo de seis pizzas.
+- Navegación dinámica hacia los detalles de cada pizza.
+- Obtención del identificador mediante `useParams`.
+- Consulta de información mediante `fetch` a una API local simulada.
+- Visualización de imágenes, ingredientes, descripciones y precios.
+- Incorporación de pizzas al carrito de compras.
+- Administración del carrito mediante `CartContext`.
+- Aumento y disminución de cantidades.
+- Cálculo automático del total de compras.
+- Implementación de `UserContext` para manejar un token simulado.
+- Funcionalidad Logout para cerrar sesión.
+- Visualización condicional de botones en Navbar.
+- Protección de la ruta `/profile`.
+- Redirección de usuarios autenticados desde Login y Register hacia Home.
+- Deshabilitación del botón Pagar cuando el usuario no está autenticado o el carrito está vacío.
+- Diseño responsivo mediante Bootstrap.
 
 ## 🛠️ Tecnologías utilizadas
 
-- React
-- Vite
-- JavaScript (JSX)
-- React Context API
-- React Hooks (`useState`, `useContext`)
+- React 19
+- Vite 8
+- JavaScript y JSX
 - React Router DOM
+- React Context API
+- React Hooks: `useState`, `useEffect`, `useContext` y `useParams`
+- Fetch API
 - Bootstrap 5
 - HTML5 y CSS3
+- Git y GitHub
 
-## 📂 Estructura del proyecto
+## 📂 Estructura principal
 
 ```text
 src/
 ├── componentes/
 │   ├── Navbar.jsx
+│   ├── Footer.jsx
 │   ├── Header.jsx
 │   └── CardPizza.jsx
 ├── context/
-│   └── CartContext.jsx
+│   ├── CartContext.jsx
+│   └── UserContext.jsx
 ├── pages/
 │   ├── Home.jsx
 │   ├── Cart.jsx
@@ -51,66 +62,108 @@ src/
 │   └── NotFound.jsx
 ├── pizzas.js
 ├── App.jsx
-├── main.jsx
-└── index.css
+└── main.jsx
 ```
 
-## 🛒 Implementación de Context API
+## 🔐 Autenticación simulada
 
-Se creó el archivo `CartContext.jsx` para centralizar la administración del carrito.
+Se implementó `UserContext.jsx` para administrar el estado de autenticación del usuario.
 
-Este contexto proporciona las siguientes funcionalidades:
+El token comienza en `true`, simulando una sesión activa.
 
-- `cart`: almacena los productos agregados al carrito.
-- `addToCart()`: agrega pizzas o incrementa su cantidad.
-- `removeFromCart()`: disminuye la cantidad y elimina productos cuando corresponde.
-- `total`: calcula el monto total de la compra.
-- `useCart()`: permite acceder al contexto desde distintos componentes.
+Al ejecutar `logout()`, el token cambia a `false`.
 
-La aplicación está envuelta en `CartProvider` desde `main.jsx`, de modo que todos los componentes comparten el mismo estado del carrito.
+Cuando el usuario está autenticado, Navbar muestra Profile y Logout. Cuando no está autenticado, muestra Login y Register.
+
+Los botones Home y Total permanecen visibles en ambos estados.
+
+La autenticación es simulada y no utiliza un servicio real de inicio de sesión.
+
+## 🛡️ Rutas protegidas
+
+Se implementaron las siguientes restricciones:
+
+- `/profile`: accesible solamente cuando el token es `true`.
+- `/login`: redirige a Home cuando el token es `true`.
+- `/register`: redirige a Home cuando el token es `true`.
+- `/pizza/:id`: permite visualizar los detalles de una pizza mediante su identificador.
+
+Las redirecciones se implementaron utilizando `Navigate` de React Router DOM.
+
+## 🍕 Consulta de pizzas con useParams
+
+La página `Pizza.jsx` utiliza `useParams` para obtener el identificador de la pizza desde la URL.
+
+Mediante `useEffect` y `fetch`, consulta el endpoint:
+
+`GET /api/pizzas/:id`
+
+Por ejemplo:
+
+`/api/pizzas/P001`
+
+La API utilizada en esta versión es una simulación local implementada mediante middleware de Vite y alimentada por los datos de `src/pizzas.js`.
+
+**Nota:** Este endpoint funciona al ejecutar el servidor de desarrollo de Vite. No está disponible automáticamente en un alojamiento estático de producción.
+
+## 🛒 Administración del carrito
+
+El carrito utiliza `CartContext` para compartir información entre componentes.
+
+Permite agregar productos, modificar cantidades y actualizar el total automáticamente.
+
+El botón Pagar permanece deshabilitado cuando el usuario no está autenticado o cuando el carrito está vacío.
 
 ## 💻 Instalación y ejecución
 
 Clonar el repositorio:
 
 ```bash
-git clone https://github.com/Miliesca1994/pizzeria-Miracle-Hito-6.git
+git clone https://github.com/Miliesca1994/pizzeria-Miracle-Hito-7.git
 ```
 
-Ingresar al proyecto:
+Ingresar a la carpeta:
 
 ```bash
-cd pizzeria-Miracle-Hito-6
+cd pizzeria-Miracle-Hito-7
 ```
 
-Instalar las dependencias:
+Instalar dependencias:
 
 ```bash
 npm install
 ```
 
-Iniciar el servidor de desarrollo:
+Ejecutar el proyecto:
 
 ```bash
 npm run dev
 ```
 
-Abrir en el navegador la dirección local indicada por Vite, generalmente:
+Abrir la dirección local indicada por Vite, generalmente:
 
 `http://localhost:5173/`
 
-## ✅ Requerimientos del Hito 6
+Para generar los archivos de producción:
 
-1. Implementación de Context para administrar el carrito de compras.
-2. Consumo del contexto desde Navbar para mostrar el total.
-3. Incorporación de pizzas desde Home utilizando Context.
-4. Administración de cantidades desde Cart mediante botones de incremento y disminución.
-5. Sincronización del total entre Navbar y Cart.
+```bash
+npm run build
+```
 
-## 📚 Proyecto académico
+## ✅ Requerimientos del Hito 7
 
-Desarrollado como parte del programa de formación de **Desafío Latam**, aplicando conocimientos de React, componentes, Hooks, Context API y administración de estados globales.
+1. Implementación de `useParams` y consulta de pizzas mediante API.
+2. Creación de `UserContext` con token simulado y método `logout`.
+3. Integración de Logout en Navbar.
+4. Deshabilitación del botón Pagar cuando el token es `false`.
+5. Implementación de rutas protegidas y redirecciones según el estado de autenticación.
 
-**Autora:** Milagros Escalante  
-**Proyecto:** Pizzería Miracle since 1994  
-**Desafío:** Hito 6 – Pizzería Mamma Mía
+
+**Autora:** Milagros Escalante
+
+**Proyecto:** Pizzería Miracle since 1994
+
+**Desafío:** Hito 7 – Pizzería Mamma Mía
+
+**Repositorio:** https://github.com/Miliesca1994/pizzeria-Miracle-Hito-7
+
