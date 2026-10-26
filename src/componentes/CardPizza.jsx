@@ -43,7 +43,7 @@ const CardPizza = ({ id, name, price, ingredients, img }) => {
 
           <div className="d-flex justify-content-between">
             <Link
-              to="/pizza/p001"
+              to={`/pizza/${id}`}
               className="btn btn-outline-primary"
             >
               Ver más

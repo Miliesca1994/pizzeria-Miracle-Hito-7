@@ -1,8 +1,11 @@
 
+import { useContext } from "react";
 import { useCart } from "../context/CartContext";
+import { UserContext } from "../context/UserContext";
 
 const Cart = () => {
   const { cart, addToCart, removeFromCart, total } = useCart();
+  const { token } = useContext(UserContext);
 
   return (
     <div className="container mt-5 mb-5">
@@ -67,12 +70,19 @@ const Cart = () => {
 
       <button
         className="btn btn-dark mt-3"
-        disabled={cart.length === 0}
+        disabled={!token || cart.length === 0}
       >
         Pagar
       </button>
+
+      {!token && (
+        <div className="alert alert-warning mt-3">
+          Debes iniciar sesión para realizar el pago.
+        </div>
+      )}
     </div>
   );
 };
 
 export default Cart;
+
